@@ -1,6 +1,4 @@
 import React from 'react'
-import { useLocalStorageState } from '../_utils/useLocalStorageState'
-
 /* OPEN TODOs
 
 [] Refactor history to be in dropdown
