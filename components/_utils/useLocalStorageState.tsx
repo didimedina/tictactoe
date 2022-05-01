@@ -1,4 +1,6 @@
+// @ts-nocheck
 import * as React from 'react'
+
 
 // this doesn't work because "window" isn't avail on the server and is throwing an error.
 // Here's an article for how to handle this https://blog.sethcorker.com/question/how-to-solve-referenceerror-next-js-window-is-not-defined/

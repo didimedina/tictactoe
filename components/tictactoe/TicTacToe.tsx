@@ -1,9 +1,12 @@
 // @ts-nocheck
 
 import React from 'react'
+import * as RadioDropdown from '../RadioDropdown'
+import { violet } from '@radix-ui/colors';
+
 /* OPEN TODOs
 
-[] Refactor history to be in dropdown
+[x] Refactor history to be in dropdown
 [] Layout board and primary components
 [] Persist data through Convex
 
@@ -104,29 +107,37 @@ export default function Game() {
     setCurrentStep(0)
   }
   
-  const moves = history.map((stepSquares, step) => {
+  const dropdownMoves = history.map((stepSquares, step) => {
     const desc = step ? `Go to move #${step}` : 'Go to game start'
     const isCurrentStep = step === currentStep
     return (
-      <li key={step}>
-        <button disabled={isCurrentStep} onClick={() => setCurrentStep(step)}>
-          {desc} {isCurrentStep ? '(current)' : null}
-        </button>
-      </li>
+      <RadioDropdown.Item disabled={isCurrentStep}  key={step} value={step}> {desc}
+        <RadioDropdown.ItemIndicator>
+          <div style={{ width: 6, height: 6, backgroundColor: violet.violet9, borderRadius: 9999}}/>
+        </RadioDropdown.ItemIndicator>
+      </RadioDropdown.Item>
     )
   })
   
+  
   return (
-    <div className="game">
-      <div className="game-board">
+    <div>
+      <div>
         <Board onClick={selectSquare} squares={currentSquares} />
-        <button className="restart" onClick={restart}>
+        <button onClick={restart}>
           restart
         </button>
       </div>
-      <div className="game-info">
+      <div>
         <div>{status}</div>
-        <ol>{moves}</ol>
+        <RadioDropdown.Root>
+          <RadioDropdown.Trigger>History</RadioDropdown.Trigger>
+          <RadioDropdown.Content>
+            <RadioDropdown.Group value={currentStep} onValueChange={setCurrentStep}>
+              {dropdownMoves}
+            </RadioDropdown.Group>
+          </RadioDropdown.Content>
+        </RadioDropdown.Root>
       </div>
     </div>
   )
