@@ -2,7 +2,6 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { styled, keyframes } from '@stitches/react'
 import { violet, mauve, blackA } from '@radix-ui/colors';
 
-
 const slideUpAndFade = keyframes({
     '0%': { opacity: 0, transform: 'translateY(2px)' },
     '100%': { opacity: 1, transform: 'translateY(0)' },
