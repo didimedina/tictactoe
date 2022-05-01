@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React from 'react'
 /* OPEN TODOs
 
@@ -44,7 +46,7 @@ function calculateWinner(squares) {
 // TIC TAC TOE ------------------------------
 
 function Board({squares, onClick}) {
-  function renderSquare(i) {
+  function renderSquare(i: number) {
     return (
       <button className="square" onClick={() => onClick(i)}>
         {squares[i]}
