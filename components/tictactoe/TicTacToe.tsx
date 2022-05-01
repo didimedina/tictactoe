@@ -10,29 +10,35 @@ import { Circle, X,  Eraser, Queue, MoonStars } from 'phosphor-react'
 
 [x] Refactor history to be in dropdown
 [x] Layout board and primary components
+[x] Bug: claculateStatus stopped working the seconf I added icons instead of strings.
+as a result game isn't resolving. This bug is happening because react components are being
+injected into the Array of values instead of strings. a way to solve this is to only 
+create the component at the point of injection and keep the entire app on stings along the way. Line 129
 [] Improvement: if game hasn't started yet set heading to Let's play! and disable eraser.
 [] Add animations using framer motion
 [] Persist data through Convex
-[] Bug: claculateStatus stopped working the seconf I added icons instead of strings.
-   as a result game isn't resolving. This bug is happening because react components are being
-   injected into the Array of values instead of strings. a way to solve this is to only 
-   create the component at the point of injection and keep the entire app on stings along the way. Line 129
 
 */
 
 // UTILS -----------------------------------
 
 function calculateStatus(winner, squares, nextValue) {
-  console.log(winner)
   return winner
     ? `Winner: ${winner}`
     : squares.every(Boolean)
     ? `Scratch: Cat's game`
-    : `Next player: ${nextValue.props.name}`
+    : `Next player: ${nextValue}`
 }
 
+/* 
+
+This logic on line 41 causes all the utils to break because they expect a string to be returned not a React object...
+? <X name="X" size={40} color={amber.amber10}/> : <Circle name="O" size={40} color={purple.purple9}/>
+
+*/
+
 function calculateNextValue(squares) {
-  return squares.filter(Boolean).length % 2 === 0 ? <X name="X" size={40} color={amber.amber10}/> : <Circle name="O" size={40} color={purple.purple9}/>
+  return squares.filter(Boolean).length % 2 === 0 ? 'X' : 'O'
 }
 
 function calculateWinner(squares) {
@@ -47,9 +53,7 @@ function calculateWinner(squares) {
     [2, 4, 6],
   ]
   for (let i = 0; i < lines.length; i++) {
-
     const [a, b, c] = lines[i]
-    console.log(squares)
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a]
     }
@@ -123,10 +127,12 @@ const StyledFooter = styled("div", {
 
 
 function Board({squares, onClick}) {
+
   function renderSquare(i) {
+
     return (
       <StyledTile onClick={() => onClick(i)}>
-        {squares[i]} 
+        {squares[i] === null ? null : squares[i] === 'X' ? <X name="X" size={40} color={amber.amber10}/> : <Circle name="O" size={40} color={purple.purple9}/> } 
       </StyledTile>
     )
   }
@@ -164,6 +170,7 @@ export default function Game() {
     
     const newHistory = history.slice(0, currentStep + 1)
     const squares = [...currentSquares]
+
     
     squares[square] = nextValue
     setHistory([...newHistory, squares])
