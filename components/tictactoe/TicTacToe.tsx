@@ -14,6 +14,10 @@ import { Circle, X,  Eraser, Queue, MoonStars } from 'phosphor-react'
 as a result game isn't resolving. This bug is happening because react components are being
 injected into the Array of values instead of strings. a way to solve this is to only 
 create the component at the point of injection and keep the entire app on stings along the way. Line 129
+[] Add poppins font
+[] update calculateWinner() to use Array functions instead of for loop
+[] Add dark-mode
+[] Add roving tabindex
 [] Improvement: if game hasn't started yet set heading to Let's play! and disable eraser.
 [] Add animations using framer motion
 [] Persist data through Convex
@@ -132,7 +136,7 @@ function Board({squares, onClick}) {
 
     return (
       <StyledTile onClick={() => onClick(i)}>
-        {squares[i] === null ? null : squares[i] === 'X' ? <X name="X" size={40} color={amber.amber10}/> : <Circle name="O" size={40} color={purple.purple9}/> } 
+        {squares[i] === null ? null : squares[i] === 'X' ? <X size={40} color={amber.amber10}/> : <Circle size={40} color={purple.purple9}/> } 
       </StyledTile>
     )
   }
