@@ -1,3 +1,4 @@
+
 import Game from '../components/tictactoe/TicTacToe'
 import {styled} from '@stitches/react'
 import {slate} from '@radix-ui/colors'
@@ -13,7 +14,7 @@ const StyledTicTacToe = styled("div", {
     fontFamily: "'Poppins', sans-serif"
 })
 
-export default function tictactoe() {
+export default function Tictactoe() {
     return (
         <StyledTicTacToe>
             <Game/>

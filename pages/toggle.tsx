@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { styled, createStitches } from '@stitches/react'
 import { slate, slateDark, blackA, whiteA } from '@radix-ui/colors'
 import * as TogglePrimitive from '@radix-ui/react-toggle'
@@ -60,7 +62,7 @@ const StyledMotionToggle = styled(motion.div, {
   })
 
 
-export default function togglePage() {
+export default function TogglePage() {
 
     const darkMode = useQuery("getTheme")
 
