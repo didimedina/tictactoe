@@ -1,4 +1,3 @@
-import type { NextPage } from 'next'
 import Game from '../components/tictactoe/TicTacToe'
 import {styled} from '@stitches/react'
 import {slate} from '@radix-ui/colors'
