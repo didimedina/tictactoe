@@ -1,6 +1,6 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { styled, keyframes } from '@stitches/react'
-import { violet, mauve, blackA } from '@radix-ui/colors';
+import { violet, mauve, blackA, slate } from '@radix-ui/colors';
 
 const slideUpAndFade = keyframes({
     '0%': { opacity: 0, transform: 'translateY(2px)' },
@@ -23,9 +23,11 @@ const slideLeftAndFade = keyframes({
 });
 
 const StyledContent = styled(DropdownMenu.Content, {
+    fontFamily: "'Poppins', sans serif",
+    fontWeight: "400",
     minWidth: 220,
     backgroundColor: 'white',
-    borderRadius: 6,
+    borderRadius: 10,
     padding: 5,
     boxShadow: '0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2)',
     '@media (prefers-reduced-motion: no-preference)': {
@@ -44,26 +46,26 @@ const StyledContent = styled(DropdownMenu.Content, {
 
 const StyledItem = styled(DropdownMenu.RadioItem, {
     all: 'unset',
-    fontSize: 13,
+    fontSize: 16,
     lineHeight: 1,
-    color: violet.violet11,
-    borderRadius: 3,
+    color: slate.slate11,
+    borderRadius: 6,
     display: 'flex',
     alignItems: 'center',
-    height: 25,
+    height: 32,
     padding: '0 5px',
     position: 'relative',
-    paddingLeft: 25,
+    paddingLeft: 24,
     userSelect: 'none',
 
     '&[data-disabled]': {
-        color: mauve.mauve8,
+        color: slate.slate8,
         pointerEvents: 'none',
     },
 
     '&:focus': {
-        backgroundColor: violet.violet9,
-        color: violet.violet1,
+        backgroundColor: slate.slate3,
+        color: slate.slate12,
     },
 })
 

@@ -2,9 +2,10 @@
 
 import React from 'react'
 import * as RadioDropdown from '../RadioDropdown'
+import { animate, motion, useAnimation } from 'framer-motion'
 import { violet, slate, amber, purple, blackA } from '@radix-ui/colors';
 import { styled } from '@stitches/react'
-import { Circle, X,  Eraser, Queue, MoonStars } from 'phosphor-react'
+import { X, Circle,  Eraser, Queue, MoonStars } from 'phosphor-react'
 
 /* OPEN TODOs
 
@@ -15,6 +16,7 @@ as a result game isn't resolving. This bug is happening because react components
 injected into the Array of values instead of strings. a way to solve this is to only 
 create the component at the point of injection and keep the entire app on stings along the way. Line 129
 [] Add poppins font
+[x] Add animations
 [] update calculateWinner() to use Array functions instead of for loop
 [] Add dark-mode
 [] Add roving tabindex
@@ -33,13 +35,6 @@ function calculateStatus(winner, squares, nextValue) {
     ? `Scratch: Cat's game`
     : `Next player: ${nextValue}`
 }
-
-/* 
-
-This logic on line 41 causes all the utils to break because they expect a string to be returned not a React object...
-? <X name="X" size={40} color={amber.amber10}/> : <Circle name="O" size={40} color={purple.purple9}/>
-
-*/
 
 function calculateNextValue(squares) {
   return squares.filter(Boolean).length % 2 === 0 ? 'X' : 'O'
@@ -93,17 +88,21 @@ const StyledBoard = styled("div", {
   backgroundColor: slate.slate4
 })
 
-const StyledTile = styled({
+const StyledTile = styled(motion.div, {
+  all: 'unset',
   backgroundColor: "White",
   display: "flex",
   alignItems: 'center',
   justifyContent: 'center',
+  '&:focus': { boxShadow: "0 2px 0px 0px black inset" },
+  '&:active': { boxShadow: "0 0px 0px 0px black inset" },
 })
 
 const StyledStatus = styled("p", {
-  fontSize: "40px",
+  fontSize: "32px",
   margin: "unset",
-  width: "100%"
+  width: "100%",
+  fontWeight: "900"
 })
 
 const StyledButton = styled("button", {
@@ -130,12 +129,40 @@ const StyledFooter = styled("div", {
 })
 
 
-function Board({squares, onClick}) {
+function Board({squares, onClick, nextValue, tabIndex}) {
+
+  // const anim = useAnimation()
+  //for some reason this needs to here instead of in the next function.
+  // its required in the component scope 
+
 
   function renderSquare(i) {
 
+    function handleKeyEvent(e) {
+      e.key === 'Enter' ? handleTap() : null
+    }
+
+    function handleTap() {
+    
+      onClick(i)
+
+      const diamondAnim = {
+        scale: 0.9,
+        borderRadius: 16
+      }
+
+      const circleAnim = {
+        scale: 0.9,
+        borderRadius: 6
+      }
+
+      return nextValue === 'O'
+      ? { ...diamondAnim }
+      : { ...circleAnim }
+    }
+
     return (
-      <StyledTile onClick={() => onClick(i)}>
+      <StyledTile tabIndex={tabIndex} onKeyDown={(e) => handleKeyEvent(e)} whileTap={()=> handleTap()}>
         {squares[i] === null ? null : squares[i] === 'X' ? <X size={40} color={amber.amber10}/> : <Circle size={40} color={purple.purple9}/> } 
       </StyledTile>
     )
@@ -168,6 +195,7 @@ export default function Game() {
   const status = calculateStatus(winner, currentSquares, nextValue)
   
   function selectSquare(square) {
+
     if (winner || currentSquares[square]) {
       return
     }
@@ -179,6 +207,7 @@ export default function Game() {
     squares[square] = nextValue
     setHistory([...newHistory, squares])
     setCurrentStep(newHistory.length)
+
   }
   
   function restart() {
@@ -202,7 +231,7 @@ export default function Game() {
   return (
     <StyledGame>
         <StyledStatus>{status}</StyledStatus>
-        <Board onClick={selectSquare} squares={currentSquares} />
+        <Board tabIndex="1" onClick={selectSquare} squares={currentSquares} nextValue={nextValue} />
       <StyledFooter>
         <StyledButton onClick={restart}>
           <Eraser size={20} />

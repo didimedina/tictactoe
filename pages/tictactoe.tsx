@@ -11,6 +11,7 @@ const StyledTicTacToe = styled("div", {
     // flexDirection: "column",
     alignItems: 'center',
     justifyContent: 'center',
+    fontFamily: "'Poppins', sans-serif"
 })
 
 export default function tictactoe() {
