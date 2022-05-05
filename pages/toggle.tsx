@@ -1,5 +1,5 @@
 import { styled, createStitches } from '@stitches/react'
-import { slate, slateDark } from '@radix-ui/colors'
+import { slate, slateDark, blackA, whiteA } from '@radix-ui/colors'
 import * as TogglePrimitive from '@radix-ui/react-toggle'
 import { motion } from 'framer-motion'
 import { Moon, Sun, ThermometerSimple } from 'phosphor-react' 
@@ -39,18 +39,18 @@ const Container = styled(motion.div, {
 
 const StyledPrimitiveToggle = styled(TogglePrimitive.Root, {
     all: 'unset',
-    backgroundColor: 'white',
+    backgroundColor: theme.colors.slate12,
     padding: 10,
     height: 48,
     width: 48,
-    borderRadius: 8,
+    borderRadius: 12,
     display: 'flex',
     fontSize: 15,
     lineHeight: 1,
     alignItems: 'center',
     justifyContent: 'center',
     boxShadow: `0 2px 10px ${theme.colors.slate5}`,
-    '&:hover': { backgroundColor: theme.colors.slate1},
+    // '&:hover': { backgroundColor: theme.colors.slate11},
     '&:focus': { boxShadow: `0 0 0 2px black` },
   });
 
@@ -86,8 +86,8 @@ export default function togglePage() {
     return (
         <Container className={darkMode? darkTheme : ''}>
             <StyledPrimitiveToggle asChild onPressedChange={(e) => setDarkMode(e)}>
-                <StyledMotionToggle whileTap={{ scale: 0.9, rotate: 160 }}>
-                    {darkMode === true ? <Sun size={32} color={theme.colors.slate9.value}/> : <Moon size={32} color={theme.colors.slate9.value}/>}
+                <StyledMotionToggle whileTap={{ scale: 0.9, rotate: 160 }} whileHover={{scale: 1.1}}>
+                    {darkMode === true ? <Sun size={32} color={theme.colors.slate11.value}/> : <Moon size={32} color={theme.colors.slate2.value}/>}
                 </StyledMotionToggle>
             </StyledPrimitiveToggle>
         </Container>
