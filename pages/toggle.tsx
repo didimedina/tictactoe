@@ -1,8 +1,8 @@
-import {styled} from '@stitches/react'
-import {slate, blackA, violet} from '@radix-ui/colors'
+import { styled, createStitches } from '@stitches/react'
+import { slate, slateDark } from '@radix-ui/colors'
 import * as TogglePrimitive from '@radix-ui/react-toggle'
 import { motion } from 'framer-motion'
-import { Moon, Sun } from 'phosphor-react' 
+import { Moon, Sun, ThermometerSimple } from 'phosphor-react' 
 import { useState } from 'react'
 import { useQuery, useMutation } from "../convex/_generated";
 import { Id } from 'convex-dev/values'
@@ -10,10 +10,23 @@ import { Id } from 'convex-dev/values'
 /* 
 
 Goals:
-[] Make data persist with Convex
+[x] Make data persist with Convex
 [] Switch theme from light to dark
 
 */
+const { theme, createTheme } = createStitches({
+    theme:{
+        colors: {
+            ...slate,
+        }
+    }
+})
+
+const darkTheme = createTheme('dark-theme', {
+    colors: {
+        ...slateDark,
+    }
+})
 
 const Container = styled(motion.div, {
     display: 'flex',
@@ -21,13 +34,12 @@ const Container = styled(motion.div, {
     justifyContent: 'center',
     height: '100vh',
     width: '100vw',
-    backgroundColor: slate.slate3
+    backgroundColor: theme.colors.slate3
 })
 
 const StyledPrimitiveToggle = styled(TogglePrimitive.Root, {
     all: 'unset',
     backgroundColor: 'white',
-    color: slate.slate11,
     padding: 10,
     height: 48,
     width: 48,
@@ -37,12 +49,12 @@ const StyledPrimitiveToggle = styled(TogglePrimitive.Root, {
     lineHeight: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    boxShadow: `0 2px 10px ${blackA.blackA3}`,
-    '&:hover': { backgroundColor: slate.slate1 },
+    boxShadow: `0 2px 10px ${theme.colors.slate5}`,
+    '&:hover': { backgroundColor: theme.colors.slate1},
     '&:focus': { boxShadow: `0 0 0 2px black` },
   });
 
-  const StyledMotionToggle = styled(motion.div, {
+const StyledMotionToggle = styled(motion.div, {
       width: '100%',
       height: '100%',   
   })
@@ -63,24 +75,19 @@ export default function togglePage() {
             localStore.setQuery(
                 "getTheme",
                 [],
-                newTempToggle // <- can only take 3 args but complains when in an array.
+                newTempToggle
             )}
 
     })
     
-    function changeTheme(e: boolean) {
-        console.log(e)
 
-        return setDarkMode(e)
-
-    }
-
+    // const theme = darkMode ? darkTheme : lightTheme
 
     return (
-        <Container>
-            <StyledPrimitiveToggle asChild onPressedChange={(e) => changeTheme(e)}>
-                <StyledMotionToggle whileTap={{ scale: 0.9 }}>
-                    {darkMode === true ? <Sun size={32} color={slate.slate9}/> : <Moon size={32} color={slate.slate9}/>}
+        <Container className={darkMode? darkTheme : ''}>
+            <StyledPrimitiveToggle asChild onPressedChange={(e) => setDarkMode(e)}>
+                <StyledMotionToggle whileTap={{ scale: 0.9, rotate: 160 }}>
+                    {darkMode === true ? <Sun size={32} color={theme.colors.slate9.value}/> : <Moon size={32} color={theme.colors.slate9.value}/>}
                 </StyledMotionToggle>
             </StyledPrimitiveToggle>
         </Container>
