@@ -5,7 +5,6 @@ import { motion } from 'framer-motion'
 import { Moon, Sun } from 'phosphor-react' 
 import { useQuery, useMutation } from "../convex/_generated";
 import Image from 'next/image'
-import { get } from 'https'
 import { useState } from 'react'
 
 // Create new theme object using stitches createTheme() which will serve as the default
@@ -25,6 +24,8 @@ const darkTheme = createTheme('dark-theme', {
         ...slateDark,
     }
 })
+
+// Styled Components
 
 const Container = styled(motion.div, {
     display: 'flex',
@@ -59,10 +60,12 @@ const StyledMotionToggle = styled(motion.div, {
 })
 
 
-
+// Toggle Page
 
 export default function TogglePage() {
-    
+
+    // Question: do I need useState if the image thats being chosen is derived from darkMode boolean?
+    // The main reason I added this is because Next complains it needs a default until the Promise resolves
     const [image, setImage] = useState('/1.jpg')
 
     const darkMode = useQuery("getTheme")
@@ -98,8 +101,7 @@ export default function TogglePage() {
         }
 
         const data = await response.json()
-        
-        const image = await data.urls.regular
+        const image = await data.urls.raw
 
         setImage(image)
     }
